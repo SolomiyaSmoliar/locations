@@ -65,7 +65,7 @@ def map_generator(latitude: float, longitude: float, year: int, file_: str):
 
     first_layear = folium.FeatureGroup(name='first_layear')
 
-    first_layear.add_child(folium.Marker(location=[49.83826, 24.02324],
+    first_layear.add_child(folium.Marker(location=[latitude, longitude],
                                          popup='I am hear',
                                          tooltip=tooltip,
                                          icon=folium.Icon(color='green', icon="home", prefix='fa')))
@@ -78,5 +78,10 @@ def map_generator(latitude: float, longitude: float, year: int, file_: str):
                                              tooltip=tooltip,
                                              icon=folium.Icon(color=col, icon='cloud')))
     m.add_child(first_layear)
-    m.save('C:/Users/Solomiya/Documents/Visual Studio/location/index.html')
+    m.save('index.html')
     return result
+
+
+if __name__ == '__main__':
+    file_ = 'C:/Users/Solomiya/Desktop/list.list'
+    print(map_generator(49.83826, 24.02324, 2014, file_))
