@@ -8,6 +8,9 @@ tooltip = 'Click fot more info'
 
 
 def read_data(file: str) -> list:
+    '''
+    Reads the file and returns a list of movies.
+    '''
     new_list = []
     file_ = open(file, 'r')
     contents = file_.readlines()
@@ -32,6 +35,11 @@ def read_data(file: str) -> list:
 
 
 def similar_year_film(year: int, film_list: list) -> list:
+    '''
+    Finds movies with the same year of release.
+    >>> similar_year_film(2015, [['"Elmira"', 2015, ' New York'], ['"ATown"', 2014, ' Austin']])
+    [['"Elmira"', 2015, ' New York']]
+    '''
     similar_year = []
     for i in film_list:
         if year in i and i not in similar_year:
@@ -40,9 +48,15 @@ def similar_year_film(year: int, film_list: list) -> list:
 
 
 def lenght_calculeting(latitude: float, longitude: float, film_list: list) -> list:
+    '''
+    The distance between the location where the movie was shot and the person.
+    And returns the first ten that are the shortest.
+    >>> lenght_calculeting(49.83826, 24.02324, [['"Elmira"', 2014, ' New York']])
+    [['"Elmira"', 2014, ' New York', (40.7127281, -74.0060152), 7174.30658729592]]
+    '''
     location = (latitude, longitude)
     for i in film_list:
-        location_2 = coordinats(i[-1])
+        location_2 = coordinates(i[-1])
         lenght = haversine(location, location_2)
         i.append(location_2)
         i.append(lenght)
@@ -50,12 +64,20 @@ def lenght_calculeting(latitude: float, longitude: float, film_list: list) -> li
     return film_list[:10]
 
 
-def coordinats(city: str) -> list:
+def coordinates(city: str) -> list:
+    '''
+    Returns the coordinates of the city where the movie was shot.
+    >>> coordinates(' New York')
+    (40.7127281, -74.0060152)
+    '''
     location = geolocator.geocode(city)
     return location.latitude, location.longitude
 
 
 def map_generator(latitude: float, longitude: float, year: int, file_: str):
+    '''
+    Generates a map and places markers on it with cities where movies were shot.
+    '''
     colors = ['red', 'blue', 'purple', 'orange', 'darkblue',
               'darkgreen', 'cadetblue', 'darkpurple', 'pink', 'lightblue']
     film_list = read_data(file_)
@@ -83,5 +105,5 @@ def map_generator(latitude: float, longitude: float, year: int, file_: str):
 
 
 if __name__ == '__main__':
-    file_ = 'C:/Users/Solomiya/Desktop/list.list'
-    print(map_generator(49.83826, 24.02324, 2014, file_))
+    import doctest
+    doctest.testmod()
