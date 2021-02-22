@@ -112,14 +112,12 @@ def map_generator(latitude: float, longitude: float, year: int, file_: str):
                                                                                             if x['properties']['COUNTRY'] in result[i][3]
                                                                                             else 'blue'}))
     m.add_child(second_layer)
-    m.save('C:/Users/Solomiya/Documents/Visual Studio/location/index.html')
+    m.save('index.html')
     pass
 
 
 if __name__ == '__main__':
-    # import doctest
-    # doctest.testmod()
-    file_ = 'C:/Users/Solomiya/Desktop/list.list'
+    file_ = 'location.list'
     year = int(input('Please enter a year you would like to have a map for: '))
     lat = float(input('Please enter your latitude: '))
     lon = float(input('Please enter your longitude: '))
@@ -127,6 +125,5 @@ if __name__ == '__main__':
     print('Please wait ...')
     map_generator(lat, lon, year, file_)
     print('Finished. Please have look at the map index.htm')
-    # print(map_generator(49.83826, 24.02324, 2014, file_))
 
 
