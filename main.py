@@ -56,7 +56,9 @@ def lenght_calculeting(latitude: float, longitude: float, film_list: list) -> li
     '''
     location = (latitude, longitude)
     for i in film_list:
-        location_2 = coordinates(i[-1])
+        adress = coordinates(i[-1])
+        location_2 = (adress[0], adress[1])
+        i.append(adress[-1])
         lenght = haversine(location, location_2)
         i.append(location_2)
         i.append(lenght)
@@ -71,7 +73,9 @@ def coordinates(city: str) -> list:
     (40.7127281, -74.0060152)
     '''
     location = geolocator.geocode(city)
-    return location.latitude, location.longitude
+    adress = location.address
+    adress = adress.split(',')
+    return location.latitude, location.longitude, adress[-1]
 
 
 def map_generator(latitude: float, longitude: float, year: int, file_: str):
@@ -94,16 +98,35 @@ def map_generator(latitude: float, longitude: float, year: int, file_: str):
 
     for i in range(len(result)):
         col = colors[i]
-        lt, ln = result[i][3]
+        lt, ln = result[i][4]
         first_layear.add_child(folium.Marker(location=[lt, ln],
                                              popup=result[i][0],
                                              tooltip=tooltip,
                                              icon=folium.Icon(color=col, icon='cloud')))
     m.add_child(first_layear)
-    m.save('index.html')
-    return result
+
+    second_layer = folium.FeatureGroup(name="Countries")
+    second_layer.add_child(folium.GeoJson(data=open('C:/Users/Solomiya/Desktop/World_Countries__Generalized_.geojson', 'r',
+                                                                                            encoding='utf-8-sig').read(),
+                                                                                            style_function=lambda x: {'fillColor':'green'
+                                                                                            if x['properties']['COUNTRY'] in result[i][3]
+                                                                                            else 'blue'}))
+    m.add_child(second_layer)
+    m.save('C:/Users/Solomiya/Documents/Visual Studio/location/index.html')
+    pass
 
 
 if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
+    # import doctest
+    # doctest.testmod()
+    file_ = 'C:/Users/Solomiya/Desktop/list.list'
+    year = int(input('Please enter a year you would like to have a map for: '))
+    lat = float(input('Please enter your latitude: '))
+    lon = float(input('Please enter your longitude: '))
+    print('Map is generating...')
+    print('Please wait ...')
+    map_generator(lat, lon, year, file_)
+    print('Finished. Please have look at the map index.htm')
+    # print(map_generator(49.83826, 24.02324, 2014, file_))
+
+
