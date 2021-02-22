@@ -8,6 +8,7 @@ You need to enter the year in which the movies were filmed, and the coordinates 
 
 Exsample:
 >>> python main.py
+
     Please enter a year you would like to have a map for: 2014
     Please enter your latitude: 49.83826
     Please enter your longitude: 24.02324
